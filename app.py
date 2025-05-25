@@ -2,6 +2,17 @@ import streamlit as st
 from responder import generate_response
 from feedback_logger import log_feedback
 from PIL import Image
+from datetime import datetime
+import pandas as pd
+import os
+
+if not os.path.exists("query_log.csv"):
+    with open("query_log.csv", "w") as f:
+        f.write("timestamp,user_input,classified_category\n")
+
+def log_query(user_input, category):
+    with open("query_log.csv", "a") as f:
+        f.write(f"{datetime.now()},{user_input},{category}\n")
 
 user_img = Image.open("assets/user_avatar.png")
 bot_img = Image.open("assets/bot_avatar.png")
@@ -75,3 +86,17 @@ for i, pair in enumerate(reversed(paired_messages)):
                     st.info("We'll try to improve that! 💡")
             
             st.write("")
+
+# Sidebar download button
+with st.sidebar:
+    st.markdown("### 📥 Admin Panel")
+    if os.path.exists("query_log.csv"):
+        df = pd.read_csv("query_log.csv")
+        st.download_button(
+            label="⬇️ Download Query Log",
+            data=df.to_csv(index=False).encode('utf-8'),
+            file_name="query_log.csv",
+            mime="text/csv"
+        )
+    else:
+        st.info("No logs yet!")
