@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#00BFFF"       # Deep Sky Blue
+backgroundColor = "#F5F7FA"    # Very light gray-blue
+secondaryBackgroundColor = "#E8ECF1"  # Soft gray
+textColor = "#1C1C1C"          # Almost black
+font = "monospace"
