@@ -6,6 +6,7 @@ from datetime import datetime
 import pandas as pd
 import os
 
+os.environ["STREAMLIT_WATCHDOG_USE_POLLING"] = "true"
 if not os.path.exists("query_log.csv"):
     with open("query_log.csv", "w") as f:
         f.write("timestamp,user_input,classified_category\n")
