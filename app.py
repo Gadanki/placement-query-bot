@@ -6,15 +6,6 @@ from datetime import datetime
 import pandas as pd
 import os
 
-os.environ["STREAMLIT_WATCHDOG_USE_POLLING"] = "true"
-if not os.path.exists("query_log.csv"):
-    with open("query_log.csv", "w") as f:
-        f.write("timestamp,user_input,classified_category\n")
-
-def log_query(user_input, category):
-    with open("query_log.csv", "a") as f:
-        f.write(f"{datetime.now()},{user_input},{category}\n")
-
 user_img = Image.open("assets/user_avatar.png")
 bot_img = Image.open("assets/bot_avatar.png")
 
@@ -87,24 +78,3 @@ for i, pair in enumerate(reversed(paired_messages)):
                     st.info("We'll try to improve that! 💡")
             
             st.write("")
-
-# Sidebar download button
-with st.sidebar:
-    st.markdown("### 📥 Admin Panel")
-    password = st.text_input("Enter admin password: ", type="password")
-
-    if password == "she_rocks":
-        st.success("Access granted!")
-        
-        if os.path.exists("query_log.csv"):
-            df = pd.read_csv("query_log.csv")
-            st.download_button(
-                label="⬇️ Download Query Log",
-                data=df.to_csv(index=False).encode('utf-8'),
-                file_name="query_log.csv",
-                mime="text/csv"
-            )
-        else:
-            st.info("No logs yet!")
-    elif password != "":
-        st.error("Incorrect password!")
