@@ -1,7 +1,7 @@
 from classifier import classify_query
 from preprocessing import clean_text
 from faq_retriever import get_all_faq_answers
-from query_logger import log_query
+from gsheet_logger import log_query
 
 known_companies = [
     "google", "microsoft", "amazon", "apple", "meta", "adobe",
@@ -63,14 +63,14 @@ def generate_response(query):
     # First try FAQ match
     faq_answer = get_all_faq_answers(query)
     if faq_answer:
-        log_query(query, "FAQ", "faq")  #To store user queries in CSV this line is added
+        log_query(query, "FAQ")  #To store user queries in CSV this line is added
         return faq_answer
 
     # Fallback to template logic
     category = classify_query(query)
     response = get_response(category, query)
     if response:
-        log_query(query, "FAQ", "faq") #To store user queries in CSV this line is added
+        log_query(query, "FAQ") #To store user queries in CSV this line is added
         return response
     
     
@@ -78,6 +78,6 @@ def generate_response(query):
         "🤖I'm not sure how to answer that yet.\n"
         "Please contact your placement officer (Or my owner-admin of this page😉) or try rephrasing your question."
     )
-    log_query(query, "Unknown", "fallback")
+    log_query(query, "Unknown")
     return fallback
 
