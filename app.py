@@ -1,6 +1,6 @@
 import streamlit as st
 from responder import generate_response
-from feedback_logger import log_feedback
+from gsheet_logger import log_feedback
 from PIL import Image
 from datetime import datetime
 import pandas as pd
@@ -63,7 +63,7 @@ for i, pair in enumerate(reversed(paired_messages)):
                 """, unsafe_allow_html=True)
 
             st.write("")
-            # 👍 👎 Feedback buttons for the bot response
+
             feedback_col1, feedback_col2 = st.columns([5, 1])
             with feedback_col1:
                 if st.button("👍 Yes", key=f"yes_{i}"):
