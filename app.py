@@ -67,13 +67,11 @@ for i, pair in enumerate(reversed(paired_messages)):
             feedback_col1, feedback_col2 = st.columns([5, 1])
             with feedback_col1:
                 if st.button("👍 Yes", key=f"yes_{i}"):
-                    from feedback_logger import log_feedback
                     log_feedback(pair[0]["text"], msg["text"], "Yes")
                     st.success("Thanks for your feedback! 🙌")
 
             with feedback_col2:
                 if st.button("👎 No", key=f"no_{i}"):
-                    from feedback_logger import log_feedback
                     log_feedback(pair[0]["text"], msg["text"], "No")
                     st.info("We'll try to improve that! 💡")
             
