@@ -58,7 +58,7 @@ for i, pair in enumerate(reversed(paired_messages)):
             with col2:
                 st.markdown(f"""
                 <div style='background-color:#f1f0f0;padding:10px;border-radius:10px'>
-                    <strong>Bot:</strong><br>{msg['text'].replace('\\n', '<br>')}
+                    <strong>Bot:</strong><br>{msg['text'].replace('\\n', '<br>').replace('\n', '<br>')}
                 </div>
                 """, unsafe_allow_html=True)
 
