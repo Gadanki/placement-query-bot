@@ -59,17 +59,13 @@ for i, pair in enumerate(reversed(paired_messages)):
                 #For now using option 1
                 bot_text_html = msg['text'].replace('\n','<br>')
                 bot_text_md = msg['text'].replace('\n', '  \n')
-                st.markdown(f"""
-                <div style='background-color:#f1f0f0;padding:10px;border-radius:10px'>
-                    <strong>Bot:</strong><br>{bot_text_html}
-                </div>
-                """, unsafe_allow_html=True)
+
                 # 2. Or, using markdown line breaks (uncomment if you want to try this instead)
-                # st.markdown(f"""
-                # <div style='background-color:#f1f0f0; padding:10px; border-radius:10px'>
-                #     <strong>Bot:</strong><br>{bot_text_md}
-                # </div>
-                # """, unsafe_allow_html=True)
+                 st.markdown(f"""
+                 <div style='background-color:#f1f0f0; padding:10px; border-radius:10px'>
+                     <strong>Bot:</strong><br>{bot_text_md}
+                 </div>
+                 """, unsafe_allow_html=True)
             st.write("")
 
             feedback_col1, feedback_col2 = st.columns([5, 1])
