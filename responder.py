@@ -1,6 +1,6 @@
 from classifier import classify_query
 from preprocessing import clean_text
-from faq_retriever import get_all_faq_answers
+from semantic_faq_retriever import get_semantic_faq_answer
 from gsheet_logger import log_query
 
 known_companies = [
@@ -61,7 +61,7 @@ if __name__ == "__main__":
 
 def generate_response(query):
     # First try FAQ match
-    faq_answer = get_all_faq_answers(query)
+    faq_answer = get_semantic_faq_answer(query)
     if faq_answer:
         log_query(query, "FAQ")  #To store user queries in CSV this line is added
         return faq_answer
