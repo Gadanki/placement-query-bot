@@ -2,8 +2,6 @@ streamlit
 pandas
 scikit-learn
 sentence-transformers
-joblib
 textblob
 gspread
 oauth2client
-deep-translator
