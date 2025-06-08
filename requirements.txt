@@ -5,3 +5,4 @@ sentence-transformers
 textblob
 gspread
 oauth2client
+deep-translator
