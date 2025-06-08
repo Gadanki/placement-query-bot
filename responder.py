@@ -2,6 +2,8 @@ from classifier import classify_query
 from preprocessing import clean_text
 from semantic_faq_retriever import get_semantic_faq_answer
 from gsheet_logger import log_query
+from deep_translator import GoogleTranslator
+
 
 known_companies = [
     "google", "microsoft", "amazon", "apple", "meta", "adobe",
@@ -49,35 +51,36 @@ def get_response(category, query):
     else:
         return None
 
-def generate_response(query):
-    category = classify_query(query)
-    return get_response(category, query)
 
-# Test it
+# Main response function
+def generate_response(query):
+    # Translate query to English
+    translated_query = GoogleTranslator(source='auto', target='en').translate(query)
+    is_translated = (translated_query.strip().lower() != query.strip().lower())
+
+    # Try semantic FAQ first
+    faq_answer = get_semantic_faq_answer(translated_query)
+    if faq_answer:
+        log_query(query, "FAQ")
+        return GoogleTranslator(source='en', target='auto').translate(faq_answer) if is_translated else faq_answer
+
+    # Rule-based response fallback
+    category = classify_query(translated_query)
+    response = get_response(category, translated_query)
+    if response:
+        log_query(query, category)
+        return GoogleTranslator(source='en', target='auto').translate(response) if is_translated else response
+
+    # Final fallback
+    fallback = (
+        "🤖 I'm not sure how to answer that yet.\n"
+        "Please contact your placement officer (Or my admin 😉)."
+    )
+    log_query(query, "Unknown")
+    return GoogleTranslator(source='en', target='auto').translate(fallback) if is_translated else fallback
+
+# For CLI testing
 if __name__ == "__main__":
     user_query = input("Ask a placement-related question: ")
     answer = generate_response(user_query)
     print("Bot:", answer)
-
-def generate_response(query):
-    # First try FAQ match
-    faq_answer = get_semantic_faq_answer(query)
-    if faq_answer:
-        log_query(query, "FAQ")  #To store user queries in CSV this line is added
-        return faq_answer
-
-    # Fallback to template logic
-    category = classify_query(query)
-    response = get_response(category, query)
-    if response:
-        log_query(query, "FAQ") #To store user queries in CSV this line is added
-        return response
-    
-    
-    fallback = (
-        "🤖I'm not sure how to answer that yet.\n"
-        "Please contact your placement officer (Or my owner-admin of this page😉) or try rephrasing your question."
-    )
-    log_query(query, "Unknown")
-    return fallback
-
